@@ -1,0 +1,27 @@
+objdump questions (wc)
+
+1) File format + architecture
+Command used: objdump -f wc
+Answer:
+File format:  file format elf64-x86-64
+Architecture: i386:x86-64, flags 0x00000150:
+
+2) Some section/segment names
+Command used: objdump -h wc
+Sections I saw (examples):
+-  .interp
+- .note.ABI-tag
+- .gnu.hash 
+- .dynsym
+
+3) main section + address
+Commands used:
+- objdump -d wc | grep "<main>"
+Answer:
+Address of main: 169:0000000000001209 <main>:
+
+
+4) Stack and heap visible?
+Answer:
+I do not see a “stack section” or “heap section” in objdump because stack/heap are not stored in the executable file.
+They are created/managed at runtime by the OS (stack) and dynamic memory allocation mechanisms like malloc/brk/mmap (heap).
