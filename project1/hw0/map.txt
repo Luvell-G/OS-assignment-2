@@ -1,0 +1,101 @@
+Q1) Which addresses from ./map are defined in the executable, and in what section?
+Defined in executable:
+
+✅ function addresses (main, recur)
+They appear in objdump disassembly, almost always in:
+
+.text section
+
+✅ static/global variable is also defined in the executable:
+
+static_data_var will be in .data (initialized) or .bss (uninitialized)
+
+NOT defined in executable (runtime only):
+
+❌ stack addresses (main stack var, recur stack var)
+❌ heap pointers (malloc results)
+
+How to prove it:
+
+objdump -D map shows main/recur labels with addresses
+
+it does not contain your stack/heap addresses as symbols
+
+Q2) List important segments/sections and what they do
+
+Common ones you’ll see (write the ones from your objdump -h map output):
+
+.text → compiled machine code (functions)
+
+.rodata → read-only constants/strings
+
+.data → initialized global/static variables
+
+.bss → uninitialized global/static variables (reserved space)
+
+.plt / .got → dynamic linking support (calling libc functions like malloc, printf)
+
+Q3) What direction is the stack growing?
+
+Look at the recursion stack addresses from output:
+
+Example pattern:
+
+call 3: 0x7fff...6fc
+
+call 2: 0x7fff...6cc
+
+call 1: 0x7fff...69c
+
+call 0: 0x7fff...66c
+
+Those are getting smaller as you go deeper → stack grows downward (toward lower addresses).
+
+✅ Your answer: “Down (toward lower addresses).”
+
+Q4) How large is the stack frame for each recursive call?
+
+Take two consecutive recursion addresses and subtract:
+
+Example:
+
+call 3 stack: 0x...6fc
+
+call 2 stack: 0x...6cc
+
+Difference:
+0x6fc - 0x6cc = 0x30 = 48 bytes
+
+So stack frame size ≈ 48 bytes per call (your number may differ).
+
+How to computing mine gives me 48
+
+Q5) Where is the heap, and what direction is it growing?
+
+Heap addresses are the malloc pointers.
+
+Typical pattern:
+
+malloc 1: 0x671010
+
+malloc 2: 0x671080
+
+Second allocation is higher → heap grows upward (toward higher addresses) in typical cases.
+
+
+“Heap is in a different region than the stack (lower than stack, often much lower).”
+
+“It generally grows upward (higher addresses).”
+
+Q6) Are the two malloc() areas contiguous?
+
+Compute the difference between malloc2 and malloc1.
+
+If:
+
+h1 = 0x671010
+
+h2 = 0x671080
+
+Difference is 0x70 (112 bytes). You asked for 1 byte each, so they’re not exactly contiguous—allocators add metadata/alignment, so there’s usually extra space.
+My answer answer is diff bytes 112
