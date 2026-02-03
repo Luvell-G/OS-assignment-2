@@ -1,0 +1,62 @@
+GDB Answers (wc)
+
+1) print argv
+Output:
+$1 = (char **) 0x7fffffffcf98
+Explanation: argv is a pointer to an array of C-string pointers (char **).
+
+2) print argv[0]
+Output:
+$2 = 0x7fffffffd4af "/workspaces/OS-assignment-2/project1/hw0/wc"
+Explanation: argv[0] points to the program name/path used to run it.
+
+3) print &main
+Output:
+$3 = (int (*)(int, char **)) 0x555555555209 <main>
+Explanation: This is the memory address where main begins in the executable.
+
+4) info stack
+#0  main (argc=2, argv=0x7fffffffcf98) at wc.c:12
+Explanation:
+It lists the current call stack / frames. It shows which functions are active and how we got here.
+
+5) info frame
+Stack level 0, frame at 0x7fffffffce80:
+ rip = 0x555555555240 in main (wc.c:12); saved rip = 0x7ffff7dce1ca
+ source language c.
+ Arglist at 0x7fffffffce70, args: argc=2, argv=0x7fffffffcf98
+ Locals at 0x7fffffffce70, Previous frame's sp is 0x7fffffffce80
+ Saved registers:
+  rbp at 0x7fffffffce70, rip at 0x7fffffffce78
+(gdb) info registers
+Missing register name
+Explanation:
+It shows details of the current stack frame: saved registers, argument locations, stack boundaries, and return address.
+
+6) info registers
+rax            0x555555555209      93824992236041
+rbx            0x7fffffffcf98      140737488342936
+rcx            0x555555557d90      93824992247184
+rdx            0x7fffffffcfb0      140737488342960
+rsi            0x7fffffffcf98      140737488342936
+rdi            0x2                 2
+rbp            0x7fffffffce70      0x7fffffffce70
+rsp            0x7fffffffce40      0x7fffffffce40
+r8             0x0                 0
+r9             0x7ffff7fca380      140737353917312
+r10            0x7fffffffcb90      140737488341904
+r11            0x203               515
+r12            0x2                 2
+r13            0x0                 0
+r14            0x555555557d90      93824992247184
+r15            0x7ffff7ffd000      140737354125312
+rip            0x555555555240      0x555555555240 <main+55>
+eflags         0x202               [ IF ]
+cs             0x33                51
+ss             0x2b                43
+ds             0x0                 0
+es             0x0                 0
+fs             0x0                 0
+gs             0x0                 0
+fs_base        0x7ffff7da1740      140737351653184
+gs_base        0x0                 0
